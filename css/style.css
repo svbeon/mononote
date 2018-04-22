@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+:root {
+  --fg-color: #000;
+  --hl-light: #dedede;
+  --hl-dark: #ccc;
+  /* change */
+  --bg-color: #fff;
+  --invert: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  margin-top: 50px;
+  font-family: 'Ubuntu Mono', monospace;
+  background: var(--bg-color);
+  color: var(--fg-color);
+  filter: invert(var(--invert));
+  max-height: calc(100vh - 50px);
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 50px;
+  border-bottom: 1px solid var(--hl-dark);
+}
+
+nav div {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+}
+
+nav #options {
+  position: absolute;
+  right: 0;
+}
+
+nav #back, nav #options div {
+  font-size: 1.2em;
+  width: 50px;
+  justify-content: center;
+  transition: opacity .3s;
+}
+
+nav #back {
+  opacity: 0;
+  border-right: 1px solid var(--hl-dark);
+}
+
+nav #options div {
+  border-left: 1px solid var(--hl-dark);
+}
+
+nav #back:hover, nav #options div:hover {
+  background: var(--hl-dark);
+  cursor: hand;
+  cursor: pointer;
+}
+
+nav #folder {
+  font-size: 1.5em;
+  padding: .3em;
+  padding-left: .5em;
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+#browser, #editor {
+  /* position: absolute; */
+  height: calc(100vh - 50px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#browser {
+  width: 33ch;
+}
+
+#browser div {
+  width: 100%;
+  height: 2.6em;
+  /* 2em + padding */
+  padding: .3em;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: relative;
+}
+
+#browser div span {
+  position: absolute;
+  white-space: nowrap;
+  padding-left: .3em;
+}
+
+#browser div span.name {
+  top: .3em;
+}
+
+#browser div span.time {
+  bottom: .3em;
+}
+
+#browser div:nth-child(odd) {
+  background-color: var(--hl-light);
+}
+
+#browser div:hover {
+  background-color: var(--hl-dark);
+}
+
+#browser div:not(:last-child) {
+  /* border-bottom: 1px solid var(--hl-dark); */
+}
+
+#editor {
+  width: calc(100vw - 33ch - 1px);
+  /* width: 67vw; */
+  /* right: 0; */
+  overflow-y: hidden;
+}
+
+.CodeMirror {
+  height: calc(100vh - 50px - 48px - 28px);
+  border-right: 0;
+  border-left: 0;
+}
+
+.editor-toolbar {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.editor-statusbar .autosave:before {
+  content: 'saved: '
+}
+
+@media all and (max-width: 716px) {
+  .CodeMirror {
+    height: calc(100vh - 50px - 78px - 28px);
+  }
+}

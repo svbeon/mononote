@@ -1,0 +1,25 @@
+{
+  "name": "monospace",
+  "version": "1.0.0",
+  "description": "A monospace writer like app for desktop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Svante Bengtson <mono@swant.pw>",
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.5",
+    "@fortawesome/fontawesome-free-regular": "^5.0.10",
+    "@fortawesome/fontawesome-free-solid": "^5.0.10",
+    "chokidar": "^2.0.3",
+    "electron": "^1.8.4",
+    "inscrybmde": "^1.11.3",
+    "moment": "^2.22.1",
+    "open": "0.0.5",
+    "wordcount": "^1.1.1"
+  },
+  "devDependencies": {
+    "electron-reload": "^1.2.2"
+  }
+}

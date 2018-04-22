@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="theme-color" content="#efefef">
+    <title>Monospace</title>
+    <link rel="stylesheet" href="./../node_modules/inscrybmde/dist/inscrybmde.min.css">
+    <link rel="stylesheet" href="./../css/style.css">
+</head>
+<body>
+  <nav>
+    <div id="back"><i id="backicon" class="fas fa-arrow-left"></i></div>
+    <div id="folder">Monospace</div>
+    <div id="options">
+      <div id="theme">
+        <i class="fas fa-tint"></i>
+      </div>
+      <div id="option2">
+        <i class="fas fa-font"></i>
+      </div>
+      <div id="selectdir">
+        <i class="fas fa-folder"></i>
+      </div>
+    </div>
+  </nav>
+  <div class="content">
+    <div id="browser"></div>
+    <div id="editor">
+      <textarea id="editarea"></textarea>
+    </div>
+  </div>
+  <!-- <script src="./../node_modules/simplemde/dist/inscrybmde.min.js"></script> -->
+  <script>
+    require('./../render/main')
+    require('@fortawesome/fontawesome')
+    require('@fortawesome/fontawesome-free-regular')
+    require('@fortawesome/fontawesome-free-solid')
+  </script>
+</body>
+</html>
