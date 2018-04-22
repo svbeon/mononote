@@ -305,6 +305,7 @@ function openFolder (event, id) {
   let name = id || this.id.substring(7)
   currentFolder = folders[folders.findIndex(folder => folder.name === name)]
   document.getElementById('back').style.setProperty('opacity', '1')
+  document.getElementById('folder').innerHTML = name
   render(notes, currentFolder)
 }
 
@@ -415,6 +416,7 @@ document.getElementById('selectdir').addEventListener('click', function (event) 
 document.getElementById('back').addEventListener('click', function (event) {
   currentFolder = undefined
   document.getElementById('back').style.setProperty('opacity', '0')
+  document.getElementById('folder').innerHTML = 'Mononote'
   render(notes)
 })
 

@@ -1,7 +1,7 @@
 {
-  "name": "monospace",
+  "name": "mononote",
   "version": "1.0.0",
-  "description": "A monospace writer like app for desktop",
+  "description": "A monospace writer-like app for desktop",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,8 +18,5 @@
     "moment": "^2.22.1",
     "open": "0.0.5",
     "wordcount": "^1.1.1"
-  },
-  "devDependencies": {
-    "electron-reload": "^1.2.2"
   }
 }
