@@ -29,6 +29,7 @@ nav {
   width: 100vw;
   height: 50px;
   border-bottom: 1px solid var(--hl-dark);
+  display: flex;
 }
 
 nav div {
@@ -54,11 +55,61 @@ nav #back {
   border-right: 1px solid var(--hl-dark);
 }
 
+nav #back.active {
+  opacity: 1;
+}
+
 nav #options div {
   border-left: 1px solid var(--hl-dark);
 }
 
-nav #back:hover, nav #options div:hover {
+nav #nav-toggle {
+  cursor: pointer;
+  padding: 10px 22px 11px 10px;
+  border-right: 1px solid var(--hl-dark);
+  width: 50px;
+}
+
+nav #nav-toggle span, nav #nav-toggle span:before, nav #nav-toggle span:after {
+  cursor: pointer;
+  border-radius: 1px;
+  height: 3px;
+  width: 25px;
+  background: #000;
+  position: absolute;
+  display: block;
+  content: '';
+}
+
+nav #nav-toggle span:before {
+  top: -8px;
+}
+
+nav #nav-toggle span:after {
+  bottom: -8px;
+}
+
+nav #nav-toggle span, nav #nav-toggle span:before, nav #nav-toggle span:after {
+  transition: all .3s ease-in-out;
+}
+
+nav #nav-toggle.active span {
+  background-color: transparent;
+}
+
+nav #nav-toggle.active span:before, nav #nav-toggle.active span:after {
+  top: 0;
+}
+
+nav #nav-toggle.active span:before {
+  transform: rotate(45deg);
+}
+
+nav #nav-toggle.active span:after {
+  transform: rotate(-45deg);
+}
+
+nav #back.active:hover, nav #nav-toggle:hover, nav #options div:hover {
   background: var(--hl-dark);
   cursor: hand;
   cursor: pointer;
@@ -90,6 +141,12 @@ nav #folder {
 
 #browser {
   width: 33ch;
+  transition: width .3s;
+}
+
+#browser.hide {
+  /* display: none; */
+  width: 0;
 }
 
 #browser div:not(.loader) {
@@ -133,6 +190,11 @@ nav #folder {
   /* width: 67vw; */
   /* right: 0; */
   overflow-y: hidden;
+  transition: width .3s;
+}
+
+#browser.hide+#editor {
+  width: 100vw;
 }
 
 .CodeMirror {

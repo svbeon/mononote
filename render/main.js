@@ -8,7 +8,7 @@ const open = require('open')
 const InscrybMDE = require('./../node_modules/inscrybmde/dist/inscrybmde.min.js')
 
 const browser = document.getElementById('browser')
-const htreg = /#[^\s]+/g
+const htreg = /#[^\s].[^#\n]+/g
 const nrreg = /^#+\s/
 
 let dir = window.localStorage.getItem('dir') || path.join(remote.app.getPath('userData'), 'notes')
@@ -183,7 +183,7 @@ class Note {
   }
 
   get tags () {
-    return ((this.content || '').match(htreg) || []).map(tag => tag.substring(1).toLowerCase())
+    return ((this.content || '').match(htreg) || []).map(tag => tag.substring(1).toLowerCase().trim())
   }
 
   setMtime () {
@@ -304,7 +304,7 @@ function loadNote (event, id, noOverwrite) {
 function openFolder (event, id) {
   let name = id || this.id.substring(7)
   currentFolder = folders[folders.findIndex(folder => folder.name === name)]
-  document.getElementById('back').style.setProperty('opacity', '1')
+  document.getElementById('back').classList.add('active')
   document.getElementById('folder').innerHTML = name
   render(notes, currentFolder)
 }
@@ -415,9 +415,14 @@ document.getElementById('selectdir').addEventListener('click', function (event) 
 
 document.getElementById('back').addEventListener('click', function (event) {
   currentFolder = undefined
-  document.getElementById('back').style.setProperty('opacity', '0')
+  document.getElementById('back').classList.remove('active')
   document.getElementById('folder').innerHTML = 'Mononote'
   render(notes)
+})
+
+document.getElementById('nav-toggle').addEventListener('click', function (event) {
+  document.getElementById('nav-toggle').classList.toggle('active')
+  document.getElementById('browser').classList.toggle('hide')
 })
 
 document.getElementById('selectdir').setAttribute('title', `Current directory: ${dir}`)
