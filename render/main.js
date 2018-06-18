@@ -1,13 +1,16 @@
+/* global confirm */
+
 const fs = require('fs')
 const path = require('path')
 const {remote} = require('electron')
 const chokidar = require('chokidar')
 const moment = require('moment')
 const wordcount = require('wordcount')
+const Fuse = require('fuse.js')
 const open = require('open')
 const InscrybMDE = require('./../node_modules/inscrybmde/dist/inscrybmde.min.js')
 
-const browser = document.getElementById('browser')
+const browser = document.getElementById('notes')
 const htreg = /#[^\s].[^#\n]+/g
 const nrreg = /^#+\s/
 
@@ -16,6 +19,7 @@ let notes = []
 let folders = []
 let currentNote
 let currentFolder
+let currentSearch
 let counter = 0
 let watcher
 let mde = new InscrybMDE({
@@ -110,6 +114,17 @@ let mde = new InscrybMDE({
     }
   ]
 })
+let fuse = new Fuse(notes, {
+  shouldSort: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: [
+    '_content'
+  ]
+})
 
 class Note {
   constructor (filePath, content) {
@@ -192,7 +207,7 @@ class Note {
     fs.stat(file, (err, stats) => {
       if (err) throw err
       self.mtime = stats.mtime.getTime()
-      render(notes, currentFolder)
+      render(notes, currentFolder, currentSearch)
     })
   }
 
@@ -202,7 +217,7 @@ class Note {
     fs.readFile(file, 'utf8', (err, data) => {
       if (err) throw err
       self._content = data
-      render(notes, currentFolder)
+      render(notes, currentFolder, currentSearch)
     })
   }
 }
@@ -234,9 +249,13 @@ function pad (str, length) {
   return str
 }
 
-function render (notes, cFolder, count) {
+function render (notes, cFolder, cSearch, count) {
   if (typeof count !== 'undefined' && counter < 5) {
     counter += 1
+    return
+  }
+  if (typeof cSearch !== 'undefined') {
+    search()
     return
   }
   counter = 0
@@ -267,6 +286,7 @@ function render (notes, cFolder, count) {
   let visible = notes.filter(note => (typeof cFolder === 'undefined' ? note.tags.length === 0 : note.tags.findIndex(tag => tag === cFolder.name) >= 0))
   html += visible.map(note => note.html).join('\n')
   browser.innerHTML = html
+
   for (let note of visible) {
     document.getElementById(note.name).addEventListener('click', loadNote)
   }
@@ -289,7 +309,19 @@ function saver () {
     }
   } else {
     currentNote.content = mde.value()
-    render(notes, currentFolder, true)
+    render(notes, currentFolder, currentSearch, true)
+  }
+}
+
+function search () {
+  let val = document.getElementById('searchinput').value
+  if (typeof val !== 'undefined' && val !== '') {
+    currentSearch = true
+    let filtered = fuse.search(val)
+    return render(filtered, currentFolder)
+  } else {
+    currentSearch = false
+    return render(notes, currentFolder)
   }
 }
 
@@ -306,7 +338,7 @@ function openFolder (event, id) {
   currentFolder = folders[folders.findIndex(folder => folder.name === name)]
   document.getElementById('back').classList.add('active')
   document.getElementById('folder').innerHTML = name
-  render(notes, currentFolder)
+  render(notes, currentFolder, currentSearch)
 }
 
 function closeNote () {
@@ -315,6 +347,7 @@ function closeNote () {
 }
 
 function removeNote () {
+  if (!confirm(`Are you sure you want to remove ${currentNote.name}`)) return
   fs.unlink(currentNote.fullPath, err => {
     if (err) throw err
   })
@@ -343,7 +376,7 @@ function setupWatcher (dir) {
       return note.fullPath === file
     })
     notes.splice(index, 1)
-    render(notes, currentFolder)
+    render(notes, currentFolder, currentSearch)
   })
 }
 setupWatcher(dir)
@@ -357,6 +390,8 @@ fs.stat(dir, function (err, stats) {
     })
   }
 })
+
+document.getElementById('searchinput').addEventListener('keyup', search)
 
 document.addEventListener('click', function (event) {
   if (event.target.tagName === 'A' && event.target.href.startsWith('http')) {
@@ -417,7 +452,7 @@ document.getElementById('back').addEventListener('click', function (event) {
   currentFolder = undefined
   document.getElementById('back').classList.remove('active')
   document.getElementById('folder').innerHTML = 'Mononote'
-  render(notes)
+  render(notes, currentFolder, currentSearch)
 })
 
 document.getElementById('nav-toggle').addEventListener('click', function (event) {

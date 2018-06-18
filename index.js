@@ -6,7 +6,7 @@ require('electron-reload')(__dirname, {
 })
 
 app.on('ready', event => {
-  const win = new BrowserWindow({width: 800, height: 600})
+  const win = new BrowserWindow({width: 800, height: 600, icon: './monoicon.ico'})
 
   win.loadURL(`file://${__dirname}/html/index.html`)
 })

@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="theme-color" content="#efefef">
-    <title>Monospace</title>
+    <title>Mononote</title>
     <link rel="stylesheet" href="./../node_modules/inscrybmde/dist/inscrybmde.min.css">
     <link rel="stylesheet" href="./../css/style.css">
 </head>
@@ -29,10 +29,16 @@
   </nav>
   <div class="content">
     <div id="browser">
-      <div class="loader">
-        <i class="fas fa-spinner fa-spin"></i><br/>
-        Loading<br/>
-        (Or you don't have any notes, start typing to create one)
+      <div id="search">
+        <i class="fas fa-search fa-2x fa-fw highz"></i>
+        <input type="text" placeholder="Search" id="searchinput" />
+      </div>
+      <div id="notes">
+        <div class="loader">
+          <i class="fas fa-spinner fa-spin"></i><br/>
+          Loading<br/>
+          (Or you don't have any notes, start typing to create one)
+        </div>
       </div>
     </div>
     <div id="editor">
